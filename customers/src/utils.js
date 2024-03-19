@@ -1,7 +1,10 @@
 const express = require("express");
 const app = express();
-const dotenv = require("dotenv");
-dotenv.config();
+
+
+if (process.env.NODE_ENV !== "PRODUCTION") {
+    require("dotenv").config();
+}
 const port = process.env.PORT || 3000;
 
 const customers = [
@@ -19,6 +22,8 @@ const customers = [
     }
 ];
 
+const connection = process.env.CONNECTION
+
 module.exports = {
-    customers, app, port
+    customers, app, port, connection
 }

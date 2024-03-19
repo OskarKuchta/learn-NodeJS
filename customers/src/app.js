@@ -1,4 +1,4 @@
-const { app, port, customers } = require("./utils");
+const { app, port, customers, connection } = require("./utils");
 const express = require("express");
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
@@ -29,7 +29,7 @@ app.post("/api/customers", (req, res) => {
 const start = async () => {
     try {
 
-        await mongoose.connect("mongodb+srv://oskarkuchta56:Kuchta123@customers.dgbec3n.mongodb.net/?retryWrites=true&w=majority&appName=Customers");
+        await mongoose.connect(connection);
         app.listen(port, () => {
             console.log(`Server running on port ${port}...`)
         })
