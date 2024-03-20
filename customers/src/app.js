@@ -2,26 +2,27 @@ const { app, port, customers, connection } = require("./utils");
 const express = require("express");
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-
+const Customer = require("./models/customer")
 
 
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-app.get("/api/customers", (req, res) => {
-    const customerData = customers.map((customer) => ({
-        name: customer.name,
-        industry: customer.industry
-    }));
 
-    res.send({
-        data: customerData
-    });
+const customer = new Customer({
+    name: "Oskar",
+    industry: "marketing"
+});
+
+customer.save();
+
+app.get("/", (req, res) => {
+    res.send(customer)
 });
 
 
-app.post("/api/customers", (req, res) => {
+app.post("/", (req, res) => {
     console.log(req.body)
     res.send(req.body)
 })
