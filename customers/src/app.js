@@ -11,20 +11,45 @@ app.use(express.urlencoded({
 }));
 
 const customer = new Customer({
-    name: "Oskar",
-    industry: "marketing"
+    name: "Jon",
+    industry: "salesman"
 });
-
-customer.save();
 
 app.get("/", (req, res) => {
-    res.send(customer)
+    res.send("Welcome!")
 });
 
+app.get("/api/customers", async (req, res) => {
+    try {
 
-app.post("/", (req, res) => {
-    console.log(req.body)
-    res.send(req.body)
+        const result = await Customer.find();
+        res.json({
+            "customers": result
+        })
+    }
+    catch (e) {
+        res.status(500).json({
+            error: e.message
+        })
+    }
+})
+
+app.post("/api/customers", async  (req, res) => {
+    console.log(req.body);
+    const customer = new Customer({
+        name: req.body.name,
+        industry: req.body.industry
+    })
+    try {
+
+        await customer.save();
+        res.status(201).json({
+            customer
+        });
+    }
+    catch (e) {
+        res.status(400).json({ error: e.message });
+    }
 })
 
 const start = async () => {
